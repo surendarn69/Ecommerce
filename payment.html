@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payment Page</title>
+    <style>
+        body {
+            background-image: url('product.jpg'); /* Change the image path if needed */
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            color: #fff;
+        }
+
+        .product-info {
+            text-align: center;
+            margin: 20px;
+        }
+
+        .payment-method {
+            margin: 20px;
+        }
+
+        #qr-code {
+            display: none;
+            margin-top: 20px;
+        }
+
+        .customer-info {
+            margin: 20px;
+        }
+
+        h2, h3, p {
+            font-weight: bold;
+        }
+
+        label, input {
+            margin: 5px 0;
+            display: block;
+        }
+
+        input[type="text"], input[type="tel"], input[type="number"] {
+            padding: 8px;
+            width: 100%;
+            max-width: 300px;
+        }
+
+        button {
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .payment-method input[type="radio"] {
+            margin-right: 10px;
+        }
+
+        .customer-info label {
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="product-info">
+        <h2 id="product-name"></h2>
+        <img id="product-img" alt="Product Image" style="max-width: 200px; height: auto;">
+        <p id="product-price"></p>
+        <label for="quantity">Quantity:</label>
+        <input type="number" id="quantity" min="1" value="1">
+    </div>
+    
+    <div class="customer-info">
+        <h3>Customer Information</h3>
+        <label for="customer-name">Name:</label>
+        <input type="text" id="customer-name" required><br>
+        <label for="customer-address">Address:</label>
+        <input type="text" id="customer-address" required><br>
+        <label for="customer-phone">Phone Number:</label>
+        <input type="tel" id="customer-phone" required><br>
+    </div>
+
+    <div class="payment-method">
+        <p>Select Payment Method:</p>
+        <label>
+            <input type="radio" name="payment" value="cod" checked> Cash on Delivery
+        </label><br>
+        <label>
+            <input type="radio" name="payment" value="online"> Online Payment
+        </label>
+    </div>
+
+    <button onclick="submitPayment()">Submit</button>
+
+    <div id="qr-code">
+        <h3>Scan this QR Code for payment:</h3>
+        <img src="assets/qr-code.png" alt="QR Code" style="max-width: 200px; height: auto;">
+    </div>
+
+    <script>
+        function getQueryParams() {
+            const params = {};
+            const queryString = window.location.search.substring(1);
+            const queryArray = queryString.split("&");
+            queryArray.forEach(param => {
+                const [key, value] = param.split("=");
+                params[decodeURIComponent(key)] = decodeURIComponent(value);
+            });
+            return params;
+        }
+
+        function displayProductInfo() {
+            const params = getQueryParams();
+            console.log(params);
+            
+            document.getElementById('product-name').innerText = params.productName;
+            document.getElementById('product-img').src = `${params.imgs}`; // Adjust based on your file structure
+            document.getElementById('product-price').innerText = `Price: ₹${params.price}`;
+        }
+
+        function submitPayment() {
+            const quantity = document.getElementById('quantity').value;
+            const paymentMethod = document.querySelector('input[name="payment"]:checked').value;
+            const customerName = document.getElementById('customer-name').value;
+            const customerAddress = document.getElementById('customer-address').value;
+            const customerPhone = document.getElementById('customer-phone').value;
+
+            alert(`You selected ${quantity} of ${document.getElementById('product-name').innerText} for payment via ${paymentMethod}.
+Name: ${customerName}
+Address: ${customerAddress}
+Phone: ${customerPhone}`);
+
+            // Display QR code
+            document.getElementById('qr-code').style.display = 'block';
+        }
+
+        // Load product information on page load
+        window.onload = () => {
+            displayProductInfo();
+        };
+    </script>
+</body>
+</html>

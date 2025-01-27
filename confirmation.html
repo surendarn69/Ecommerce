@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Order Confirmation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <h2>Order Confirmation</h2>
+    <div id="confirmation-message"></div>
+
+    <script>
+        // Function to get query parameters
+        function getQueryParams() {
+            const params = {};
+            window.location.search.substring(1).split("&").forEach(param => {
+                const [key, value] = param.split("=");
+                params[decodeURIComponent(key)] = decodeURIComponent(value);
+            });
+            return params;
+        }
+
+        // Get parameters from URL
+        const params = getQueryParams();
+        const amount = params.amount || 'Not specified';
+        const productId = params.productId || 'Not specified';
+
+        // Display confirmation message
+        document.getElementById('confirmation-message').innerHTML = `
+            <p>Thank you for your purchase!</p>
+            <p>You have successfully paid <strong>₹${amount}</strong> for product ID: <strong>${productId}</strong>.</p>
+            <p>Your order will be processed shortly.</p>
+        `;
+    </script>
+</body>
+</html>

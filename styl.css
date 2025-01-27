@@ -1,0 +1,58 @@
+/* Background Image and Basic Styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.background-image {
+    background-image: url('your-image-url.jpg'); /* Replace with your background image URL */
+    background-size: cover;
+    background-position: center;
+    height: 100vh;
+    color: white;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+nav ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+nav ul li {
+    display: inline;
+    margin: 0 15px;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+.contact-info {
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background for contact info */
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 600px;
+    margin-top: 50px;
+}
+
+.contact-info h1 {
+    margin-bottom: 20px;
+}
+
+.contact-info p {
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+.contact-info a {
+    color: #25d366; /* WhatsApp color */
+    text-decoration: none;
+    font-weight: bold;
+}

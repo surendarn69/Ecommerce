@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product List</title>
+    <style>
+        body {
+            background-image: url('images.jpg'); 
+            background-size: cover;
+            background-position: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        #product-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px;
+        }
+        .product {
+            border: 1px solid #ccc;
+            padding: 50px;
+            width: 200px;
+            text-align: center;
+            background-color: white;
+            opacity: 0.9;
+        }
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        #search {
+            width: 300px;
+            padding: 12px;
+            font-size: 16px;
+            margin: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <input type="text" id="search" placeholder="Search products..." oninput="searchProducts()">
+    <div id="product-list"></div>
+
+    <script>
+        const products = [
+            { id: 2, name: "Orange", price: 20, imgs: "asserts/Orange.jpg" },
+            { id: 3, name: "Tomato", price: 25, imgs: "asserts/Tomato.jpg" },
+            { id: 4, name: "Milk", price: 40, imgs: "asserts/Milk.jpg" },
+            { id: 5, name: "Bread", price: 35, imgs: "asserts/Bread.jpg" },
+            { id: 6, name: "Eggs", price: 50, imgs: "asserts/Eggs.jpg" },
+            { id: 7, name: "Rice", price: 60, imgs: "asserts/Rice.jpg" },
+            { id: 8, name: "Pasta", price: 45, imgs: "asserts/Pasta.jpg" },
+            { id: 10, name: "Fish", price: 200, imgs: "asserts/Fish.jpg" },
+        ];
+
+        function displayProducts(productList) {
+            const productListDiv = document.getElementById('product-list');
+            productListDiv.innerHTML = '';
+
+            productList.forEach(product => {
+                const productDiv = document.createElement('div');
+                productDiv.className = 'product';
+                productDiv.innerHTML = `
+                    <img src="${product.imgs}" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>Price: ₹${product.price}</p>
+                    <button onclick="buyProduct(${product.id}, '${product.name}', ${product.price},'${product.imgs}')">Buy</button>
+                    <button onclick="addToCart(${product.id})">Add to Cart</button>
+                `;
+                productListDiv.appendChild(productDiv);
+            });
+        }
+
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push(product);
+            localStorage.setItem('cart', JSON.stringify(cart));
+            alert(`${product.name} added to cart!`);
+        }
+
+        function buyProduct(productId, productName, price, imgs) {
+            window.location.href = `payment.html?productId=${productId}&productName=${encodeURIComponent(productName)}&price=${price}&imgs=${encodeURIComponent(imgs)}`;
+        }
+
+        function searchProducts() {
+            const searchValue = document.getElementById('search').value.toLowerCase();
+            const filteredProducts = products.filter(product =>
+                product.name.toLowerCase().includes(searchValue)
+            );
+            displayProducts(filteredProducts);
+        }
+
+        window.onload = () => {
+            displayProducts(products);
+        };
+    </script>
+</body>
+</html>
